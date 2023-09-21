@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('background-image.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class=""text-center" style="margin-left: 20%;">
+            <a href="landslide.html" style="padding: 10px;">Landslide </a>
+            <a href="cyclone.html" style="padding: 10px;">Cyclone</a>
+            <a href="tsunami.html" style="padding: 10px;">Tsunami</a>
+            <a href="heat wave.html" style="padding: 10px;">Heat Wave</a>
+            <a href="urban flood.html" style="padding: 10px;">Urban Floods</a>
+            <a href="flood.html" style="padding: 10px;">Floods</a>
+            <a href="earthquake.html" style="padding: 10px;">Earthquakes</a>
+        </div>
+        <h1 class="text-center">Disaster Management</h1>
+        <form id="disasterForm">
+            <div class="form-group">
+                <label for="stateSelect">Select State:</label>
+                <select class="form-control" id="stateSelect" required>
+                    <option value="" disabled selected>Select a state</option>
+                    <!-- Add all states in India here -->
+                    <option value="AndhraPradesh">Andhra Pradesh</option>
+                    <option value="ArunachalPradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="HimachalPradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="MadhyaPradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="TamilNadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="UttarPradesh">Uttar Pradesh</option>
+                    <option value="WestBengal">West Bengal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="districtSelect">Select District:</label>
+                <select class="form-control" id="districtSelect" required>
+                    <option value="" disabled selected>Select a district</option>
+                    <!-- Options for districts will be populated using JavaScript -->
+                </select>
+            </div>
+            <button type="submit" style="color: #0d0d0d; background-color: #fbfb19; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px;">Submit</button>
+        </form>
+    
+        <div id="disasterInfo" style="display: none;">
+            <!-- Information about disaster management for the selected district will be displayed here -->
+        </div>
+        <script>
+            // Dummy data for disaster information in Karnataka
+            const disasterData = {
+                AndhraPradesh:{
+                    districts: ["EastGodavari","Kakinada","Nellore","Srikakulam","WestGodavari"],
+                    EastGodavari:{
+                        deathCount:"Flood: Death & injured people(4,000)",
+                        helpline: "Helpline: 18004250101",
+                        campDetails: "Camp Details: Rajamahendravaram,Amalapuram. (The camp is located in Government School,College,Hospital)",
+                    },
+                    Kakinada:{
+                        deathCount:"Flood: Death & injured people(7,000)",
+                        helpline: "Helpline: 1800-425-3077",
+                        campDetails: "Camp Details: Rajamahendravaram,Amalapuram. (The camp is located in Government School,College,Hospital)",
+                    },
+                    Nellore:{
+                        deathCount:"Flood: Death & injured people(5,000)",
+                        helpline: "Helpline: 9711077372 , 011-24363260",
+                        campDetails: "Sajjapuram,Mannavarappadu,Mulumudi. (The camp is located in Government School,College,Hospital)",
+                    },
+                    Srikakulam:{
+                        deathCount:"Flood: Death & injured people(2,908)",
+                        helpline: "Helpline: 9711077372 , 011-24363260",
+                        campDetails: "Camp Details: Amadalavalasa,Narasannapeta,Ponduru. (The camp is located in Government School,College,Hospital)",
+                    },
+                    WestGodavari:{
+                        deathCount:"Flood: Death & injured people(3,410)",
+                        helpline: "Helpline: 18004250101",
+                        campDetails: "Camp Details: : Veeravasaram. Palakoderu. Pentapadu. (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                ArunachalPradesh:{
+                    districts: ["Seppa","Itanagar","Tawang","Yingkiong","Mechuko"],
+                    Itanagar:{
+                        deathCount: "FLOOD/LANDSLIDE DEAD AND INJURIES:5,786",
+                        helpline: "Helpline: 1077, 1070",
+                        campDetails: "Camp Details: papu Nallah,Tinali. (The camp is located in Government School,College,Hospital)",
+                    },
+                    Tawang:{
+                        deathCount: "FLOOD/LANDSLIDE DEAD AND INJURIES:2,143",
+                        helpline: "Helpline: 1077,1070",
+                        campDetails: "Camp Details: Township,Zemithang (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Assam:{
+                    districts:["Baksa","Barpeta","Chirang","Darrang","Dhemaji"],
+
+                    Baksa:{
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES(4645)",
+                        helpline: "Helpline: 84719-00263",
+                        campDetails: "Camp Details: Goreswar, Barama (The camp is located in Government School,College,Hospital)"
+                    },
+                    Barpeta: {
+                        deathCount:"EARTHQUAKE : DEATH & INJURED PEOPLES(987)",
+                        helpline: "Helpline: 90851-98481",
+                        campDetails: "Camp Details: Barpeta, Kamrup, Goalpara (The camp is located in Government School,College,Hospital)",
+                    },
+                    Chirang: {
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES (8670)",
+                        helpline: "Helpline: 03664-242316",
+                        campDetails: "Camp Details: Bengtol, Barnagar (The camp is located in Government School,College,Hospital)",
+                    },
+                    Darrang: {
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES(908)",
+                        helpline: "Helpline: 03713-222723",
+                        campDetails: "Camp Details: Alikhash , Bagaribari (The camp is located in Government School,College,Hospital)",
+                    },
+                    Dhemaji: {
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES (8765)",
+                        helpline: "Helpline: 801102-5984",
+                        campDetails: "Camp Details: Charaipara, Hatigarh (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Bihar:{
+                    districts: ["Darbhanga","EastChamparan","Gopalganj","Khagaria","Kishanganj"],
+                    Darbhanga: {
+                        deathCount:"FLOOD DEAD AND INJURIES:8,680",
+                        helpline: "Helpline: 06272-245055",
+                        campDetails: "Camp Details: BENIPUR (The camp is located in Government School,College,Hospital)",
+                    },
+                    EastChamparan:{
+                        deathCount:"FLOOD DEAD AND INJURIES: 2,000",
+                        helpline: "Helpline: 0612-2233333",
+                        campDetails: "Camp Details: Chaika (The camp is located in Government School,College,Hospital)",
+                    },
+                    Gopalganj:{
+                        deathCount:"FLOOD DEAD AND INJURIES:2,876",
+                        helpline: "Helpline: 06156-224601",
+                        campDetails: "Camp Details: Barauli (The camp is located in Government School,College,Hospital)",
+                    },
+                    Khagaria:{
+                        deathCount:"FLOOD DEAD AND INJURIES:2,098",
+                        helpline :"Helpline: 06244-222064",
+                        campDetails:"Camp Details: Chautham,mansi,parbatta (The camp is located in Government School,College,Hospital)",
+                    },
+                    Kishanganj:{
+                        deathCount:"FLOOD DEAD AND INJURIES:5,987",
+                        helpline : "Helpline: 06456-222530",
+                        campDetails : "Camp Details: Masaurhi,Paliganji (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Chhattisgarh:{
+                    districts:["Chandigar"],
+                    Chandigar:{
+                        deathCount: "EARTHQUAKE : DEATH & INJURED PEOPLES (294)",
+                        helpline: "Helpline: 2749194",
+                        campDetails: "Camp Details: Kishanpura,Dyalpur (The camp is located in Government School,College,Hospital)"
+                    },
+                },
+                Goa:{
+                    districts:["Panaji"],
+                    Panaji:{
+                        helpline: "Helpline: 0832-2225850",
+                        campDetails: "Camp Details: Calapor, Renovadi, Siridao (The camp is located in Government School,College,Hospital) "
+                    },
+                },
+                Gujarat:{
+                    districts:["Bharuch","Bhavnagar","DevbhumiDwarka","Jamnagar","Junagadh"],
+                    Bharuch:{
+                        deathCount:"FLOOD DEAD AND INJURIES: 1,000",
+                        helpline: "Helpline: 079-23259275",
+                        campDetails: "Camp Details: Bharuch (The camp is located in Government School,College,Hospital)",
+                    },
+                    Bhavnagar:{
+                        deathCount:"FLOOD/EARTHQUAKE DEAD AND INJURIES: 5,000",
+                        campDetails: "Camp Details: Bhavnagar (The camp is located in Government School,College,Hospital)",
+                    },
+                    DevbhumiDwarka:{
+                        deathCount:"FLOOD/EARTHQUAKE DEAD AND INJURIES:7,000",
+                        helpline: "Helpline:  2833 232620",
+                        campDetails: "Camp Details: Khambhaliya,Kalyanpur (The camp is located in Government School,College,Hospital)"
+                    },
+                    Jamnagar:{
+                        deathCount:"FLOOD DEAD AND INJURIES: 5,000",
+                        helpline: "Helpline: 0288-2553404",
+                        campDetails: "Jamnagar (The camp is located in Government School,College,Hospital)",
+                    },
+                    Junagadh:{
+                        deathCount:"FLOOD DEAD AND INJURIES:5,769",
+                        helpline: "Helpline: 0285-2634595",
+                        campDetails: "Camp Details: Keshod,Manavadar (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Haryana:{
+                    districts: ["Faridabad","Bhiwani","Ambala","Jhajjar","Karnal"],
+                    Faridabad:{
+                        deathCount:"FLOOD DEAD AND INJURIES: 1,760",
+                        helpline: "Helpline: 9050613496",
+                        campDetails: "Camp Details: Neharpar, Suraj Kund, Atmadpur (The camp is located in Government School,College,Hospital)",
+                    },
+                    Bhiwani:{
+                        deathCount:"FLOOD DEAD AND INJURIES:3,874",
+                        helpline: "Help line: 9416188749",
+                        campDetails: "Camp Details: Dadri, Loharu, Lohani (The camp is located in Government School,College,Hospital)",
+                    },
+                    Ambala:{
+                        deathCount:"FLOOD DEAD AND INJURIES: 4,000",
+                        helpline: "Help line: 9416184873",
+                        campDetails: "Camp Details: Mohra, Saha, Barara (The camp is located in Government School,College,Hospital)",
+                    },
+                    Jhajjar:{
+                        deathCount: "FLOOD DEAD AND INJURIES:2,880",
+                        helpline: "Help line: 01251-253116",
+                        campDetails: "Camp Details: Badli , Bahadurgarh, Badsa (The camp is located in Government School,College,Hospital)",
+                    },
+                    Karnal:{
+                        deathCount:"FLOOD DEAD AND INJURIES: 1,680",
+                        helpline: "Help line: 0172-254938",
+                        campDetails: "Camp Details:  Vikash Nagar , Indri (The camp is located in Government School,College,Hospital)",
+                    }
+                },
+                HimachalPradesh:{
+                    districts:["Solan","Kullu","Banjar","Mandi","Shimla"],
+                    Solan:{
+                        deathCount:"2550 people died of flood",
+                        helpline: "Help line: 1800111555",
+                        campDetails: "Camp Details: Kamli, Koti, Jabli, Sihardi, Sultanpur, Kyar, Shamti (The camp is located in Government School,College,Hospital)",
+                    },
+                    Kullu:{
+                        deathCount:"1000 people died of flood",
+                        helpline: "Help line: 01902-225630, 01902-225631",
+                        campDetails: "Camp Details: Gadsa Nullah (The camp is located in Government School,College,Hospital)",
+                    },
+                    Banjar:{
+                        deathCount:"1500 people died of flood",
+                        helpline: "Help line: 01903-221512",
+                        campDetails: "Camp Details: Jibhi (The camp is located in Government School,College,Hospital)",
+                    },
+                    Mandi:{
+                        deathCount:"4500 people died of flood",
+                        helpline: "Help line: 01905-223555",
+                        campDetails: "Camp Details: Seraj valley, Kataula, Kotla (The camp is located in Government School,College,Hospital)",
+                    },
+                    Shimla:{
+                        campDetails: "Camp Details: Gaura, Jhakri, Khamadi (The camp is located in Government School,College,Hospital)"
+                    }
+                },
+                Jharkhand:{
+                    districts:["Sahibganj","Godda","Pakur","Singhbhum","Saraikela","Garhwa"]
+                },
+                Karnataka: {
+                    districts: ["Bangalore", "VIJAYAPURA", "Udupi", "DakshinaKannada", "Bagalko"],
+                    Bangalore: {
+                        deathCount:"2500 people died in flood",
+                        campDetails: "Camp Details: (Hebbala(Bengaluru North),Yelahanka,Kengeri(BengaluruSouth),Krishnarajapura(Bengaluru East),Anekal. (The camp is located in Government School,College,Hospital)",
+                    },
+                    VIJAYAPURA: {
+                        deathCount:"500 people died in flood",
+                        helpline: "Help line: 08352-221261",
+                        campDetails: "Camp Details: Vijayapura, Basavan Bagewadi, Muddebihal, Babaleshwar, Tikota. (The camp is located in Government School,College,Hospital)",
+                    },
+                    Udupi: {
+                        deathCount:"250 people died in land slide",
+                        campDetails: "Camp Details: Udupi, Karkala, Kundapura, Byndoor, Brahmavara, and Kaup. (The camp is located in Government School,College,Hospital)",
+                    },
+                    DakshinaKannada: {
+                        deathCount:"5500 people died in flood 350 people died in land slide",
+                        helpline: "Help line: 9483908000",
+                        campDetails: "Camp Details: Mangaluru,Belthangady,Puttur,Uppinangady,Bantwal,Sullia,Ullal,Thumbe. (The camp is located in Government School,College,Hospital)",
+                    },
+                    Bagalko: {
+                        deathCount:"4000 people died in flood",
+                        helpline: "Help line: 08354. 236101",
+                        campDetails: "Camp Details: Badami and Hunagund. (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Kerala:{
+                    districts:["Idukki","Wayanad","Kozhikode","Thrissur","Ernakulam"],
+                    Idukki:{
+                        deathCount:"Munnar landslide - 17 died Adimali land slide - 5 died",
+                        helpline: "Help line: 04862-233036",
+                        campDetails: "Camp Details: Munnar,Idukki,Peerumade,Thodupuzha,Adimali (The camp is located in Government School,College,Hospital)",
+                    },
+                    Wayanad:{
+                        deathCount:"14 people died in land slide ,40 people missing ,50 people rescued 450 people died in flood",
+                        helpline: "Help line: 04936-204151",
+                        campDetails: "Camp Details: Kalpetta, Mananthavady,Sulthan Bathery (The camp is located in Government School,College,Hospital)",
+                    },
+                    Kozhikode:{
+                        deathCount:"200 people died in flood",
+                        helpline: "Help line: 0495 2371400",
+                        campDetails: "Camp Details: Puthiyangadi, Pantheerankavu, Nellikode, Kacheri, Chevayur (The camp is located in Government School,College,Hospital)"
+                    },
+                    Thrissur:{
+                        deathCount:"43 people died in flood",
+                        helpline: "Help line: 0487-2333070",
+                        campDetails: "Camp Details: Punkunnam, Patturakkal and Cheroor (The camp is located in Government School,College,Hospital)",
+                    },
+                    Ernakulam:{
+                        deathCount:"360 people died in flood",
+                        helpline: "Help line: 0471-2518513/0471-2518487",
+                        campDetails: "Camp Details: Aluva, Kunnathunadu, Kochi, Kanayannur, Kothamangalam, Muvattupuzha (The camp is located in Government School,College,Hospital)"
+                    },
+                },
+                MadhyaPradesh:{
+                    districts:["Bhopal","Indore","Jabalpur","Gwalior","uijain"],
+                },
+                Maharashtra:{
+                    districts: ["Pune","Nagpur","Jalgaon"],
+                    Pune:{
+                        deathCount:"FLOOD ,DEATH AND INJURED PEOPLE: At least 344",
+                        campDetails: "Camp Details: Ambegaon,Baramati,Daund,Haveli,Indapur,Junnar,Khed (The camp is located in Government School,College,Hospital)",
+                    },
+                    Nagpur:{
+                        deathCount:"FLOOD ,DEATH AND INJURED PEOPLE: approximately 500",
+                        campDetails: "Camp Details: Nagpur Urban, Nagpur Rural, Hingna, Kamptee, Katol, Narkhed (The camp is located in Government School,College,Hospital)",
+                    },
+                    Jalgaon:{
+                        deathCount:"FLOOD ,DEATH AND INJURED PEOPLE: 21 deaths, 9 missing",
+                        helpline: "HELP LINE:1800 -111- 555",
+                        campDetails: "Camp Details: Dharangaon, Amalner, Bhadgaon, Bhusawal, Bodwad, Chalisgaon (The camp is located in Government School,College,Hospital)"
+                    }
+                },
+                Manipur:{
+                    districts:["TAMENGLONG","SENAPATI","CHANDEL"],
+                    TAMENGLONG:{
+                        deathCount:"LANDSLIDE,death and injured peoples: 58,Missing 3",
+                        helpline: "Helpline number: 9436683196, 9402415562, 03877-222003",
+                        campDetails:"Camp Details: Tupul (The camp is located in Government School,College,Hospital)",
+                    },
+                    SENAPATI:{
+                        deathCount:"earthquake, death and injured peoples:308 peoples injured.",
+                        helpline: "Helpline number : 9612042811",
+                        campDetails: "Camp Details: Ngari Khullen (The camp is located in Government School,College,Hospital)",
+                    },
+                    CHANDEL:{
+                        deathCount:"Flood, death and injured peoples:142 peoples",
+                        helpline: "Helpline number : 9612258678,8729988519",
+                        campDetails: "Camp Details: Jaumol (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Meghalaya:{
+                    districts:['Shillong', 'Tura', 'Jowai'],
+                    Shillong:{
+                        deathCount:"Earthquake,death and injured peoples: 1542",
+                        helpline : "Rescue Team No -  0364-2227000 ",
+                        campDetails: "Camp Details: Moti nagar, Lamwabah, Upper Mawprem (The camp is located in Government School,College,Hospital)",
+                    },
+                    Tura:{
+                        deathCount:"Landslide, death and injured peoples: 44",
+                        helpline: "Rescue Team No: 0364-2500053",
+                        campDetails: "Camp Details: Tura (The camp is located in Government School,College,Hospital)",
+                    },
+                    Jowai:{
+                        deathCount:"Flood, death and injured peoples:Approximately 100",
+                        helpline: "Rescue Team No - 0364-2227000",
+                        campDetails: "Camp Details: Amlarem , Jarain , Jowai (The camp is located in Government School,College,Hospital)"
+                    }
+                },
+                Mizoram:{
+                    districts:["Aizawl","Lunglei","Saiha"],
+                    Aizawl:{
+                        deathCount:"Earthquake,death and injured peoples: 63% death",
+                        helpline: "Rescue Team No : 0389-2334327",
+                        campDetails: "Camp Details: Durtlang , Ramthar , Buhban (The camp is located in Government School,College,Hospital)",
+                    },
+                    Lunglei:{
+                        deathCount:"Earthquake, death and injured peoples:52% death",
+                        helpline: "Rescue Team No - 0389-2341203",
+                        campDetails: "Camp Details:  Chithar , Dawn ,  Sairep (The camp is located in Government School,College,Hospital)",
+                    },
+                    Saiha:{
+                        deathCount:"Landslide, death and injured peoples:Nearly 70",
+                        helpline: "Rescue Team No - 03835-222609",
+                        campDetails: "Camp Details: Riasikah , Bymari , Lodaw  (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Nagaland:{
+                    districts:['Chumoukedima', 'Dimapur', 'Mokokchung', 'Tuensang'],
+                    Chumoukedima:{
+                        deathCount:"LANDSLIDE : INJURED PEOPLE :25",
+                        campDetails: "Camp Details: Diphupar, Samaguri, Zani (The camp is located in Government School,College,Hospital)",
+                    },
+                    Dimapur:{
+                        deathCount:"FLOOD: INJURED PEOPLE : 400",
+                        campDetails: "Camp Details: Vedima, Senjum, Rilan (The camp is located in Government School,College,Hospital)",
+                    },
+                    Mokokchung:{
+                        deathCount:"FLOOD: INJURED PEOPLE : 100",
+                        campDetails: "Camp Details: Chakpa, Longkong, Saring (The camp is located in Government School,College,Hospital)",
+                    },
+                    Tuensang:{
+                        deathCount:"FLOOD: INJURED PEOPLE :750",
+                        helpline: "Rescue Team No - 8414853766",
+                        campDetails: "Camp Details: Alisopurm, Hukir, Kusong  (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Odisha:{
+                    districts:['Bhubaneswar', 'Cuttack', 'Rourkela', 'Brahmapur'],
+                    Bhubaneswar:{
+                        deathCount:"FLOOD :INJURED PEOPLE :6834",
+                        helpline: "Rescue Team No - 0674-2395398",
+                        campDetails: "Camp Details: Patia, Sundarpada, Kalinganagar (The camp is located in Government School,College,Hospital)",
+                    },
+                    Cuttack:{
+                        deathCount:"FLOOD :INJURED PEOPLE :1000",
+                        helpline: "Rescue Team No - 0671-2301711",
+                        campDetails: "Camp Details: Patapur, Tulsipur, Banara (The camp is located in Government School,College,Hospital)",
+                    },
+                    Rourkela:{
+                        deathCount:"FLOOD :INJURED PEOPLE :838",
+                        helpline: "Rescue Team No - 0671-2303263",
+                        campDetails: "Camp Details: Jhirpani, Dalposh, Jamsera (The camp is located in Government School,College,Hospital)",
+                    },
+                    Brahmapur:{
+                        deathCount:"EARTHQUAKE :INJURED PEOPLE : 519",
+                        helpline: "Rescue Team No - 680-2223333",
+                        campDetails: "Camp Details: Kalakada, Naranpur, Sridharpur (The camp is located in Government School,College,Hospital)"
+                    },
+                },
+                Punjab:{
+                    districts: ["PATIALA","MOHALI","LUDIANA"],
+                    PATIALA:{
+                        deathCount:"FLOOD :INJURED PEOPLE :38",
+                        helpline: "Helpline number : 01752359999",
+                        campDetails: "Camp Details: Rohar Jagi, Badshahpur, Rampur Parta (The camp is located in Government School,College,Hospital)"
+                    },
+                    MOHALI:{
+                        deathCount:"FLOOD :INJURED PEOPLE : 471",
+                        helpline: "Helpline number : 7347661642",
+                        campDetails: "Camp Details:Dehar, Alamgir, Tiwana, Khajur mani  (The camp is located in Government School,College,Hospital)",
+                    },
+                    LUDIANA:{
+                        deathCount:"FLOOD :INJURED PEOPLE : 11",
+                        helpline: "Helpline number : 0161-2441257",
+                        campDetails: "CMC colony, Hardev nagar, Hundal Chowk (The camp is located in Government School,College,Hospital)"
+                    }
+                },
+                Rajasthan:{
+                    districts: ["Dausa","Deeg","Dholpur"],
+                    Dausa:{
+                        deathCount: "EARTHQUAKE  : DEATH & INJURED PEOPLES(135)",
+                        campDetails : "Camp Details: Baswa , Dausa , Lalsot , Ramgarh Pacchwara  (The camp is located in Government School,College,Hospital)"
+                    },
+                    Deeg:{
+                        deathCount: "EARTHQUAKE : DEATH & INJURED PEOPLES(879)",
+                        campDetails: "Camp Details: Nagar , Deeg , Kaman , Janothar , Kumher  (The camp is located in Government School,College,Hospital)"
+                    },
+                    Dholpur: {
+                        deathCount:"EARTHQUAKE : DEATH & INJURED PEOPLES (908)",
+                        campDetails: "Bari , Baseri , Dhaulpur , Mania , Rajakhera , Sarmathura (The camp is located in Government School,College,Hospital)"
+                    },
+                },
+                Sikkim:{
+                    districts:['Gangtok', 'Namchi', 'Mangan', 'Gyalshing'],
+                    Gangtok:{
+                        deathCount:"Earthquake : Death & Injured peoples(111)",
+                        campDetails: "Camp Details: Rangpo ,Tadong, Rakdong (The camp is located in Government School,College,Hospital)",
+                    },
+                    Namchi:{
+                        deathCount:"Flood : Death  & Injured peoples (765)",
+                        campDetails: "Camp Details: Bikmat, Kamrang, Manpur (The camp is located in Government School,College,Hospital)",
+                    },
+                    Mangan:{
+                        deathCount:"Earthqyake :  Death &  Injured peoples (876)",
+                        campDetails: "Camp Details: Sangtok, Pakshep, Kazor (The camp is located in Government School,College,Hospital)",
+                    },
+                    Gyalshing:{
+                        deathCount:"Flood : Death & Injured peoples (153)",
+                        campDetails: "Camp Details: Kongri, Martam, Sapong (The camp is located in Government School,College,Hospital)"
+                    }
+                },
+                TamilNadu:{
+                    districts: ['Chennai','Erode','Nagapattinam','coimbatore'],
+                    Chennai:{
+                        deathCount:"Floods :Death & Injured peoples:(2,888)",
+                        helpline: "Help line number:1077",
+                        campDetails: "Camp Details: Thiruvottriyur,Tondiarpet,Madhvaram,Perambur (The camp is located in Government School,College,Hospital)",
+                    },
+                    Erode:{
+                        deathCount:"Floods :Death & Injured peoples:(54)",
+                        helpline: "HELPLINE NO. 09711077372",
+                        campDetails: "Camp Details: Erode,Bhavani,Gobichettipalayam,Sathyamangalam,Perundurai (The camp is located in Government School,College,Hospital)",
+                    },
+                    Nagapattinam:{
+                        deathCount:"Floods: Death & Injured peoples:(123)",
+                        helpline: "Helpline number:1077",
+                        campDetails: "Camp Details: Sirkali,Nagapattinam,Mayiladuthurai (The camp is located in Government School,College,Hospital)",
+                    },
+                    coimbatore:{
+                        deathCount:"Floods :Death & Injured peoples:(34)",
+                        helpline: "Help line: 011-24363260",
+                        campDetails: "Camp Details: Coimbatore (South), Coimbatore (North), Perur, Madukkarai, Annur, Mettupalayam (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Telangana:{
+                    districts: ["Adilabad","Hyderabad","KVRangareddy"],
+                    Adilabad:{
+                        deathCount:"Floods :Death & Injured peoples:82",
+                        helpline: "Helpline:08732-224100",
+                        campDetails: "Camp Details: Asifabad,Bejjur,Bhainsa,Chennoor,Jainad,Kubeer,Mancherial (The camp is located in Government School,College,Hospital)"
+                    },
+                    Hyderabad:{
+                        deathCount:"Floods :Death & Injured peoples:(2,813)",
+                        helpline: "Helpline:040-2344255",
+                        campDetails: "Camp Details: Amberpet,Balanagar,Balapur,Ghatkesar,Nampally,Quthbullapur,Uppal (The camp is located in Government School,College,Hospital)",
+                    },
+                    KVRangareddy:{
+                        deathCount:"Floods :Death & Injured peoples:(178)",
+                        campDetails: "Camp Details: Balanagar,Farooqnagar,Ghatkesar,Hayathnagar,Ibrahimpatnam (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+                Tripura:{
+                    districts: ['Agartala', 'Udaipur', 'Dharmanagar'],
+                    Agartala:{
+                        deathCount:"EARTHQUAKE : DEATH & INJURED PEOPLES(970)",
+                        campDetails:"Camp Details: Banamalipur, Dhaleswar, Ramnagar (The camp is located in Government School,College,Hospital)",
+                    },
+                    Udaipur: {
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES(898)",
+                        campDetails: "Camp Details: Kupilong, Lakshipati, Manikya (The camp is located in Government School,College,Hospital)" 
+                    },
+                    Dharmanagar:{
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES(839)",
+                        campDetails: "Camp Details: Krishnapur, Rajbari, Padmapur  (The camp is located in Government School,College,Hospital)"
+                    },
+                },
+                UttarPradesh:{
+                    districts: ['KANPUR',"LUCKNOW",'VARANASI','AGRA'],
+                    KANPUR:{
+                        deathCount:"FLOOD: DEATH & INJURED PEOPLES(265)",
+                        helpline: "HelpLine : 9454400211,0512-2530663",
+                        campDetails: "Camp Details: Kalyanpur, Kidwai Nagar, Swaroop Nagar (The camp is located in Government School,College,Hospital)",
+                    },
+                    LUCKNOW:{
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES(909)",
+                        helpline: "HelpLine: 155300",
+                        campDetails: "Camp Details: Jankipuram, Mahanagar, Aliganj, Rajajipuram, Alambagh (The camp is located in Government School,College,Hospital)"
+                    },
+                    VARANASI:{
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES (677)",
+                        campDetails:" Camp Details: SarnathRamnagar, Godowlia Market, Vishwanath Gali (The camp is located in Government School,College,Hospital)",
+                    },
+                    AGRA:{
+                        deathCount:"EARTHQUAKE : DEATH &INJURED PEOPLES(457)",
+                        campDetails: "Camp Details: Shahjganj,Sanjay Place,Jeoni Mandi,Foundry Nagar (The camp is located in Government School,College,Hospital)"
+                    },
+                },
+                WestBengal:{
+                    districts:['Kolkata', 'Howrah', 'Asansol', 'Siliguri', 'Durgapur'],
+                    Kolkata:{
+                        deathCount:"EARTHQUAKE : DEATH & INJURED PEOPLES(1890)",
+                        helpline: "Rescue Team no : 098302 55470",
+                        campDetails: "Camp Details: Kestopur, Salt Lake, Nicco Park (The camp is located in Government School,College,Hospital)",
+                    },
+                    Howrah:{
+                        helpline: "Rescue team no : 9830193381",
+                        campDetails: "Camp Details: Hindolganj, Hashnabad, Haora (The camp is located in Government School,College,Hospital)",
+                    },
+                    Asansol:{
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES(1764)",
+                        helpline: "Rescue team no: 9073936732",
+                        campDetails: "Camp Details: Burnpur, Shristinagar, Kulti (The camp is located in Government School,College,Hospital)",
+                    },
+                    Siliguri:{
+                        deathCount:"FLOOD : DEATH & INJURED PEOPLES(2965)",
+                        helpline: "Rescue team no: 9073936733",
+                        campDetails: "Camp Details: Matigara,Bankim Nagar,Salugara (The camp is located in Government School,College,Hospital)",
+                    },
+                    Durgapur:{
+                        deathCount:"LANDSLIDES : DEATH & INJURED PEOPLES(3750)",
+                        helpline: "Rescue team no: 03542344448",
+                        campDetails: "Camp Details: Bidhannagar, Benachity, Fuljhore (The camp is located in Government School,College,Hospital)",
+                    },
+                },
+            };
+    
+            // Function to populate the district dropdown based on the selected state
+            function populateDistricts() {
+                const stateSelect = document.getElementById("stateSelect");
+                const districtSelect = document.getElementById("districtSelect");
+                const selectedState = stateSelect.value;
+    
+                // Clear previous options
+                districtSelect.innerHTML = '<option value="" disabled selected>Select a District</option>';
+    
+                if (selectedState in disasterData) {
+                    const districts = disasterData[selectedState].districts;
+                    for (const district of districts) {
+                        const option = document.createElement("option");
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    }
+                }
+            }
+    
+            // Function to display disaster information on form submission
+            function displayDisasterInfo(event) {
+                event.preventDefault();
+                const stateSelect = document.getElementById("stateSelect");
+                const districtSelect = document.getElementById("districtSelect");
+                const disasterInfo = document.getElementById("disasterInfo");
+                const selectedState = stateSelect.value;
+                const selectedDistrict = districtSelect.value;
+    
+                if (selectedState in disasterData && selectedDistrict in disasterData[selectedState]) {
+                    const info = disasterData[selectedState][selectedDistrict];
+                    const deathCount = info.deathCount;
+                    const helpline = info.helpline;
+                    const campDetails = info.campDetails;
+                    
+                    disasterInfo.innerHTML = `<h3>Help Line and Camp Details:</h3><p>${deathCount}<p>${helpline}</p><p>${campDetails}</p>`;
+                    disasterInfo.style.display = "block";
+                } else {
+                    disasterInfo.innerHTML = "<p>No information available for the selected district.</p>";
+                    disasterInfo.style.display = "block";
+                }
+            }
+    
+            // Event listeners
+            document.getElementById("stateSelect").addEventListener("change", populateDistricts);
+            document.getElementById("disasterForm").addEventListener("submit", displayDisasterInfo);
+    
+            // Initial population of districts
+            populateDistricts();
+        </script>
+    </body>
+    <div class="image" style="margin-left: 40%;">
+    <p>To Get the Mobile App</p>
+    <a id="downloadLink" href="Disaster App_1_1.0.apk" download="Disaster Helpline App">
+        <button type="button" style="margin-left: 2.3%; color: #fff; background-color: #4CAF50; font-family:Courier; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px;" onclick="startDownload()">Download</button>
+    </a>
+    <p id="downloadStatus" style="display: none; margin-top: 10px;">Processing... Please wait.</p>
+</div>
+
+<script>
+    function startDownload() {
+        document.querySelector('button').style.display = 'none';
+        document.getElementById('downloadStatus').style.display = 'block';
+        setTimeout(function() {
+            document.getElementById('downloadStatus').style.display = 'none';
+            alert('Download completed.');
+            document.querySelector('button').style.display = 'block';
+        }, 3000);
+    }
+</script>
+
+</html>
